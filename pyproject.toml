@@ -1,0 +1,57 @@
+[project]
+name = "ddpg"
+version = "0.1.0"
+description = "Add your description here"
+authors = [
+    { name = "Arvin Kushwaha", email = "arvin.singh.kushwaha@gmail.com" }
+]
+dependencies = [
+    "jaxlib[cuda12_pip] @ https://storage.googleapis.com/jax-releases/cuda12/jaxlib-0.4.28+cuda12.cudnn89-cp312-cp312-manylinux2014_x86_64.whl",
+    "jax>=0.4.30",
+    "jaximal @ git+https://github.com/ArvinSKushwaha/jaximal.git",
+    "matplotlib>=3.9.0",
+    "matplotlib-backend-sixel @ git+https://github.com/ArvinSKushwaha/matplotlib-backend-sixel",
+    "tqdm>=4.66.4",
+    "rich>=13.7.1",
+    "better-partial>=1.0.6",
+]
+readme = "README.md"
+requires-python = ">= 3.12"
+license = { text = "MIT" }
+
+[tool.rye]
+managed = true
+virtual = true
+dev-dependencies = ["pytest>=8.2.1", "basedpyright>=1.12.4", "optax>=0.2.2"]
+
+[tool.rye.scripts]
+ci = { chain = ["ci:verifytypes", "ci:basedpyright"] }
+"ci:verifytypes" = "rye run basedpyright --verifytypes jaximal"
+"ci:basedpyright" = "rye run basedpyright -p . ."
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/jaximal"]
+
+[tool.ruff]
+target-version = "py312"
+
+[tool.ruff.lint.isort]
+lines-between-types = 1
+relative-imports-order = "closest-to-furthest"
+
+[tool.ruff.format]
+quote-style = "single"
+docstring-code-format = true
+
+[tool.basedpyright]
+typeCheckingMode = "strict"
+reportMissingTypeStubs = false
+reportUnknownParameterType = false
+reportUnknownArgumentType = false
+reportUnknownMemberType = false
+reportUnknownVariableType = false
+reportUnknownLambdaType = false
+reportUntypedFunctionDecorator = false
